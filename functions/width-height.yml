@@ -1,0 +1,9 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  width-height:
+    lang: node10-express
+    handler: ./width-height
+    image: castellanr/width-height:latest

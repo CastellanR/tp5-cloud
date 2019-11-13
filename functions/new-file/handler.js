@@ -18,19 +18,28 @@ const splitKey = key => ({
 module.exports = async (event, context) => {
   try {
     if (event.body.Key) {
-      const db = await mongoConnection;
+      const dbConnection = await mongoConnection;
       const fileInfo = splitKey(event.body.Key);
       const record = event.body.Records.find(
         record => record.eventName === "s3:ObjectCreated:Put"
       );
-      await db.db("tp-final").collection("files").insertOne({
-        _id: event.body.Key,
-        ...fileInfo,
-        date: record.eventTime,
-        size: record.s3.object.size
-      });
+      await dbConnection
+        .db("tp-final")
+        .collection("files")
+        .update(
+          {
+            _id: event.body.Key
+          },
+          {
+            _id: event.body.Key,
+            ...fileInfo,
+            date: record.eventTime,
+            size: record.s3.object.size
+          },
+          { upsert: true }
+        );
       context.status(200).succeed("File created!");
-    }
+    } else context.status(400).fail("Error");
   } catch (error) {
     console.log("TCL: error", error);
     context.status(400).fail(error);
