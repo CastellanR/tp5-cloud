@@ -31,10 +31,12 @@ module.exports = async (event, context) => {
             _id: event.body.Key
           },
           {
-            _id: event.body.Key,
-            ...fileInfo,
-            date: record.eventTime,
-            size: record.s3.object.size
+            $set: {
+              _id: event.body.Key,
+              ...fileInfo,
+              date: record.eventTime,
+              size: record.s3.object.size
+            }
           },
           { upsert: true }
         );
