@@ -1,0 +1,9 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  info-exif:
+    lang: node10-express
+    handler: ./info-exif
+    image: castellanr/info-exif:latest
