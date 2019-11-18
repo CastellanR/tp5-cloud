@@ -1,0 +1,9 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  pdf-data:
+    lang: node10-express
+    handler: ./pdf-data
+    image: castellanr/pdf-data:latest
