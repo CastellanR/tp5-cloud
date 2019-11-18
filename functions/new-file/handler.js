@@ -34,7 +34,7 @@ module.exports = async (event, context) => {
             $set: {
               _id: event.body.Key,
               ...fileInfo,
-              date: record.eventTime,
+              date: new Date(record.eventTime),
               size: record.s3.object.size
             }
           },
